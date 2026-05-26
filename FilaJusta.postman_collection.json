@@ -19,6 +19,18 @@
           "request": { "method": "GET", "url": { "raw": "{{base_url}}/api/medicos", "host": ["{{base_url}}"], "path": ["api", "medicos"] } }
         },
         {
+          "name": "GET Médicos por Especialidade",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/medicos?especialidade_id={{especialidade_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "medicos"],
+              "query": [{ "key": "especialidade_id", "value": "{{especialidade_id}}" }]
+            }
+          }
+        },
+        {
           "name": "Horarios disponiveis",
           "request": {
             "method": "GET",

@@ -136,17 +136,26 @@ Use `POST /api/autenticacao/login` com um dos usuarios seed para preencher o tok
 
 Paciente **nao possui login**, **nao recebe token** e **nao acessa painel administrativo**.
 
+Fluxo recomendado: `Especialidades -> Medicos filtrados -> Horarios -> Consulta`.
+
 Rotas publicas:
 
 ```text
 GET   /api/especialidades
 GET   /api/medicos
+GET   /api/medicos?especialidade_id=<uuid>
 GET   /api/horarios?medico_id=<uuid>&data=YYYY-MM-DD
 POST  /api/consultas
 GET   /api/consultas/codigo/:codigo?cpf=<cpf>
 PATCH /api/consultas/codigo/:codigo/confirmar?cpf=<cpf>
 PATCH /api/consultas/codigo/:codigo/cancelar?cpf=<cpf>
 POST  /api/documentos/upload
+```
+
+Exemplo de medicos por especialidade:
+
+```http
+GET /api/medicos?especialidade_id=<uuid>
 ```
 
 Exemplo de agendamento publico:
@@ -272,9 +281,10 @@ Para testar no Swagger, Postman ou frontend:
 1. Rode migrations e seeds.
 2. Faca login com `admin@filajusta.com` ou `recepcao@filajusta.com`.
 3. Liste especialidades em `GET /api/especialidades`.
-4. Liste medicos em `GET /api/medicos`.
-5. Consulte horarios em `GET /api/horarios?medico_id=00000000-0000-4000-8000-000000000201&data=YYYY-MM-DD`.
-6. Use uma consulta seed com codigo `VPL-A001` a `VPL-A020` e o CPF vinculado ao paciente para testar o fluxo publico.
+4. Liste todos os medicos ativos em `GET /api/medicos`.
+5. Liste medicos de uma especialidade em `GET /api/medicos?especialidade_id=<uuid_da_especialidade>`.
+6. Consulte horarios em `GET /api/horarios?medico_id=00000000-0000-4000-8000-000000000201&data=YYYY-MM-DD`.
+7. Use uma consulta seed com codigo `VPL-A001` a `VPL-A020` e o CPF vinculado ao paciente para testar o fluxo publico.
 
 ## Respostas
 
