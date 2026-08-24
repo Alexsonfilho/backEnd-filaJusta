@@ -1,4 +1,4 @@
-const { sequelize } = require('../../banco/modelos');
+const { sequelize, Sequelize } = require('../../banco/modelos');
 const ErroAplicacao = require('../../utils/erroAplicacao');
 const { paraDataLocal, dayjs, inicioDoDia, fimDoDia, horarioComercial, formatarDataManaus } = require('../../utils/data');
 const { gerarCodigoConsulta } = require('../../utils/codigoConsulta');
@@ -42,7 +42,7 @@ class ConsultaServico {
     await medicoServico.garantirMedicoAtivo(normalizado.medico_id);
 
     try {
-      return await sequelize.transaction(async (transaction) => {
+      return await sequelize.transaction({ isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE }, async (transaction) => {
         const paciente = await pacienteServico.buscarOuCriarPorConsulta(normalizado, { transaction });
         const consultaEm = dataConsulta.toDate();
 
@@ -85,7 +85,7 @@ class ConsultaServico {
       });
     } catch (erro) {
       if (erro instanceof ErroAplicacao) throw erro;
-      if (erro.name === 'SequelizeUniqueConstraintError') {
+      if (erro.name === 'SequelizeUniqueConstraintError' || erro.parent?.code === '40001') {
         throw new ErroAplicacao('Conflito de agendamento ou codigo duplicado', 409);
       }
       throw erro;

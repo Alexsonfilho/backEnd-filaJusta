@@ -29,6 +29,8 @@ src/
 
 ## Instalacao
 
+Antes de iniciar o backend, tenha uma instancia PostgreSQL disponivel e configure as variaveis `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER` e `DB_PASSWORD` no arquivo `.env`.
+
 ```bash
 cp .env.example .env
 npm install
@@ -37,13 +39,37 @@ npm run db:seed
 npm run dev
 ```
 
-Com Docker, suba PostgreSQL e backend:
+## Variaveis de Ambiente
 
-```bash
-docker compose up --build
+O backend le as configuracoes a partir do arquivo `.env` em desenvolvimento e de variaveis de ambiente nos demais ambientes.
+
+Principais variaveis:
+
+```text
+NODE_ENV
+PORT
+APP_URL
+TIMEZONE
+DB_HOST
+DB_PORT
+DB_NAME
+DB_USER
+DB_PASSWORD
+DATABASE_URL
+DB_SSL
+DB_SSL_REJECT_UNAUTHORIZED
+JWT_SECRET
+JWT_EXPIRES_IN
+CORS_ORIGIN
+FRONTEND_URL
+UPLOAD_DIR
+MAX_UPLOAD_SIZE_MB
+LOG_LEVEL
 ```
 
-No ambiente desta sessao, `node` estava disponivel, mas `npm` pode depender do PATH local da maquina.
+Em producao, `JWT_SECRET` e obrigatorio, nao pode usar o valor de exemplo e precisa ter pelo menos 32 caracteres. Tambem e obrigatorio configurar `CORS_ORIGIN`.
+
+Para PostgreSQL em nuvem, use `DATABASE_URL` quando o provedor entregar uma URL unica. Se o provedor exigir SSL, configure `DB_SSL=true`. Mantenha `DB_SSL_REJECT_UNAUTHORIZED=true` quando o certificado do provedor for confiavel.
 
 ## Banco, Migrations e Seeds
 
