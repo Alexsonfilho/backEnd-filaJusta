@@ -7,6 +7,7 @@ class AnalyticsServico {
     const totalAgendamentos = await Consulta.count({ where: { excluido_em: null } });
     const totalAtendidos = await Consulta.count({ where: { status: 'atendido', excluido_em: null } });
     const totalFaltas = await Consulta.count({ where: { status: 'falta', excluido_em: null } });
+    const totalCancelados = await Consulta.count({ where: { status: 'cancelado', excluido_em: null } });
     const consultasAltoRisco = await Consulta.count({ 
       where: { nivel_risco: 'alto', status: 'aguardando', excluido_em: null } 
     });
@@ -19,6 +20,7 @@ class AnalyticsServico {
       totalAgendamentos,
       totalAtendidos,
       totalFaltas,
+      totalCancelados,
       taxaNoShowPercentual,
       consultasAltoRisco
     };
