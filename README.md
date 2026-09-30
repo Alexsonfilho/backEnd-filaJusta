@@ -1,31 +1,50 @@
 # FilaJusta Backend
 
-Backend do FilaJusta com dois fluxos separados:
+Backend do FilaJusta com dois fluxos separados e inteligência de dados aplicada:
 
-- **Publico:** paciente agenda e acompanha consulta sem login, usando CPF e codigo `VPL-XXXX`.
-- **Interno:** recepcao e admin usam JWT para gestao da clinica.
+- **Público:** paciente agenda e acompanha consulta sem login, usando CPF e código `VPL-XXXX`.
+- **Interno:** recepção e admin usam JWT para gestão da clínica, acompanhamento preditivo de absenteísmo (SmartPredict) e painel analítico (BI).
+
+---
+
+> ⚠️ **AVISO IMPORTANTE SOBRE DADOS E SEEDERS:**
+> Os scripts de povoamento do banco de dados (`seeders`) foram desenvolvidos **exclusivamente para ambientes de desenvolvimento, testes locais e demonstrações acadêmicas**. Eles contêm registros fictícios e determinísticos de médicos, pacientes, especialidades e histórico de agendamentos. **NUNCA execute os seeders em ambiente de produção real.**
+
+---
 
 ## Estrutura
 
 ```text
 src/
-+-- app.js
-+-- servidor.js
-+-- banco/modelos/
-+-- config/
-+-- documentacao/
-+-- middlewares/
-|   +-- autenticarUsuario.js
-|   +-- autorizarPerfil.js
-|   +-- validarConsultaPublica.js
-+-- modulos/
-+-- rotas/
-|   +-- publicas/
-|   +-- recepcao/
-|   +-- admin/
-+-- utils/
-+-- validadores/
-```
+├── app.js
+├── servidor.js
+├── banco/modelos/
+├── config/
+├── documentacao/
+├── middlewares/
+│   ├── autenticar.js
+│   ├── autorizar.js
+│   ├── validarConsultaPublica.js
+│   └── ...
+├── modulos/
+│   ├── agenda/
+│   ├── autenticacao/
+│   ├── consultas/            
+│   ├── analytics/            
+│   ├── documentos/
+│   ├── especialidades/
+│   ├── medicos/
+│   ├── pacientes/
+│   └── usuarios/
+├── rotas/
+│   ├── publicas/
+│   ├── recepcao/             
+│   └── admin/
+├── utils/
+│   ├── engineRisco.js        
+│   └── ...
+└── validadores/
+
 
 ## Instalacao
 
@@ -35,7 +54,7 @@ Antes de iniciar o backend, tenha uma instancia PostgreSQL disponivel e configur
 cp .env.example .env
 npm install
 npm run db:migrate
-npm run db:seed
+npm run db:seed   # Apenas para testes locais e desenvolvimento
 npm run dev
 ```
 
